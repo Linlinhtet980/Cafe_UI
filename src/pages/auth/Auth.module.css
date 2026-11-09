@@ -1,0 +1,226 @@
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background-color: var(--background);
+  color: var(--text);
+  position: relative;
+}
+
+.authHeaderBar {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.themeToggleBtn {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.themeToggleBtn:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.authBrand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 2rem;
+  gap: 0.5rem;
+}
+
+.brandIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.authBrand h2 {
+  font-size: 1.6rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.authBrand p {
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin-top: 0.25rem;
+}
+
+.authTabs {
+  display: flex;
+  background: rgba(128, 128, 128, 0.1);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 1.8rem;
+}
+
+.tabBtn {
+  flex: 1;
+  padding: 0.65rem;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.tabBtn.active {
+  background: var(--primary);
+  color: #ffffff;
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(67, 91, 201, 0.3);
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.formGroup label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: rgba(128, 128, 128, 0.05);
+  color: var(--text);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputWrapper input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 91, 201, 0.15);
+}
+
+.passwordToggleBtn {
+  position: absolute;
+  right: 0.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+.passwordToggleBtn:hover {
+  opacity: 1;
+}
+
+.formExtras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.forgotLink {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+.submitBtn {
+  margin-top: 0.6rem;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+.submitBtn:hover {
+  filter: brightness(1.1);
+}
+
+.submitBtn:active {
+  transform: scale(0.98);
+}
+
+.feedbackBanner {
+  margin-top: 1.2rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: rgba(162, 213, 109, 0.2);
+  border: 1px solid var(--accent);
+  color: var(--text);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.feedbackBanner.error {
+  background: rgba(220, 53, 69, 0.15);
+  border-color: #dc3545;
+}
+

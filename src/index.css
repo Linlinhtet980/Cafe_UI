@@ -1,0 +1,49 @@
+:root,
+:root[data-theme="light"] {
+  --text: #030409;
+  --background: #f8f9fd;
+  --primary: #435bc9;
+  --secondary: #e2c99b;
+  --accent: #a2d56d;
+}
+
+:root[data-theme="dark"] {
+  --text: #f7f8fc;
+  --background: #020308;
+  --primary: #364eba;
+  --secondary: #634a1d;
+  --accent: #60922a;
+}
+
+/* ─── Global Reset & Scrollbar None ─── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge, Opera */
+  width: 0;
+  height: 0;
+}
+
+html,
+body {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}

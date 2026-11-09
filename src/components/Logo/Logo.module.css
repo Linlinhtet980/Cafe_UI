@@ -1,0 +1,124 @@
+.logoContainer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--primary);
+  user-select: none;
+}
+
+/* ─── Size Variants ─── */
+.small .iconWrapper {
+  width: 32px;
+  height: 32px;
+}
+.small .cupIcon {
+  font-size: 1.25rem;
+}
+.small .logoText {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.medium .iconWrapper {
+  width: 44px;
+  height: 44px;
+}
+.medium .cupIcon {
+  font-size: 1.6rem;
+}
+.medium .logoText {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.large .iconWrapper {
+  width: 58px;
+  height: 58px;
+}
+.large .cupIcon {
+  font-size: 2.2rem;
+}
+.large .logoText {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+/* ─── Icon & Steam Positioning ─── */
+.iconWrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.cupIcon {
+  color: var(--primary);
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.logoContainer:hover .cupIcon {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+/* ─── Wavy Steam SVG Animation ─── */
+.steamSvg {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.steamPath {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 2px rgba(67, 91, 201, 0.4));
+  transform-origin: bottom center;
+}
+
+.steam1 {
+  animation: riseSteam 2.1s infinite ease-out;
+}
+
+.steam2 {
+  animation: riseSteam 2.1s infinite ease-out;
+  animation-delay: 0.7s;
+}
+
+.steam3 {
+  animation: riseSteam 2.1s infinite ease-out;
+  animation-delay: 1.4s;
+}
+
+@keyframes riseSteam {
+  0% {
+    transform: translateY(4px) scaleX(0.7);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  60% {
+    transform: translateY(-5px) scaleX(1.1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-12px) scaleX(1.4);
+    opacity: 0;
+  }
+}
+
+.logoText {
+  color: var(--primary);
+  letter-spacing: -0.01em;
+}
+
