@@ -8,12 +8,10 @@ export default function Users() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null); // for detail modal
-  const [editingUser, setEditingUser] = useState(null);   // for edit modal
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
 
-  // Form state for creating new user
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,36 +30,43 @@ export default function Users() {
   const fetchUsers = async () => {
     try {
       const response = await api.get('/api/users');
-      // Cafe_Api returns { data: users, message: "user retrieved successfully" }
       setUsers(response.data.data || []);
     } catch (error) {
       console.error('Error fetching users:', error);
-      toast.error(error.response?.data?.message || 'Users စာရင်း ရယူခြင်း မအောင်မြင်ပါ');
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
+    let isMounted = true;
+
     api.get('/api/users')
       .then((response) => {
-        // Cafe_Api returns { data: users, message: "user retrieved successfully" }
-        setUsers(response.data.data || []);
+        if (isMounted) {
+          setUsers(response.data.data || []);
+        }
       })
       .catch((error) => {
-        console.error('Error fetching users:', error);
-        toast.error(error.response?.data?.message || 'Users စာရင်း ရယူခြင်း မအောင်မြင်ပါ');
+        if (isMounted) {
+          console.error('Error fetching users:', error);
+          toast.error(error.response?.data?.message || 'Users စာရင်း ရယူခြင်း မအောင်မြင်ပါ');
+        }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // Handle Search Filter
   const filteredUsers = users.filter((u) =>
     (u.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
     (u.email || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // ─── Handle Create User (POST /api/users) ───
   const handleAddSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.password) {
@@ -79,14 +84,13 @@ export default function Users() {
       toast.success(`🎉 အသုံးပြုသူ "${formData.name}" ကို အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ!`);
       setIsAddModalOpen(false);
       setFormData({ name: '', email: '', password: '', bio: '', address: '' });
-      fetchUsers(); // Refresh list from database
+      fetchUsers();
     } catch (error) {
       console.error('Create error:', error);
       toast.error(error.response?.data?.message || error.response?.data?.error || 'အသုံးပြုသူ ထည့်သွင်းခြင်း မအောင်မြင်ပါ');
     }
   };
 
-  // Open Edit Modal with user data
   const handleOpenEdit = (user) => {
     setEditingUser(user);
     setEditFormData({
@@ -97,7 +101,6 @@ export default function Users() {
     });
   };
 
-  // Handle Edit Submit
   const handleEditSubmit = (e) => {
     e.preventDefault();
     if (!editFormData.name || !editFormData.email) {
@@ -127,7 +130,6 @@ export default function Users() {
     setEditingUser(null);
   };
 
-  // ─── Handle Delete User (DELETE /api/users/:id) ───
   const handleDeleteUser = async (id, name) => {
     if (!window.confirm(`"${name}" ကို စာရင်းမှ ဖျက်ပစ်ရန် သေချာပါသလား?`)) {
       return;
@@ -145,7 +147,6 @@ export default function Users() {
 
   return (
     <div className={styles.usersPage}>
-      {/* Page Header */}
       <div className={styles.pageHeader}>
         <div className={styles.titleGroup}>
           <h1>Users & Staff Management</h1>
@@ -160,7 +161,6 @@ export default function Users() {
         </button>
       </div>
 
-      {/* Search Filter */}
       <div className={styles.searchBar}>
         <i className="fa-solid fa-magnifying-glass"></i>
         <input
@@ -171,7 +171,6 @@ export default function Users() {
         />
       </div>
 
-      {/* Users Table Card */}
       <div className={styles.tableCard}>
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
@@ -254,7 +253,6 @@ export default function Users() {
         </div>
       </div>
 
-      {/* ─── Modal 1: Add New User Form ─── */}
       {isAddModalOpen && (
         <div className={styles.modalBackdrop} onClick={() => setIsAddModalOpen(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -340,7 +338,6 @@ export default function Users() {
         </div>
       )}
 
-      {/* ─── Modal 2: View User Details ─── */}
       {selectedUser && (
         <div className={styles.modalBackdrop} onClick={() => setSelectedUser(null)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -393,7 +390,6 @@ export default function Users() {
         </div>
       )}
 
-      {/* ─── Modal 3: Edit User Modal ─── */}
       {editingUser && (
         <div className={styles.modalBackdrop} onClick={() => setEditingUser(null)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>

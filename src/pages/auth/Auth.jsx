@@ -2,18 +2,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 import Logo from '../../components/Logo/Logo';
 import styles from './Auth.module.css';
 
 export default function Auth() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [isLogin, setIsLogin] = useState(true);
   const [theme, setTheme] = useState('light');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Form states
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,7 +22,6 @@ export default function Auth() {
     confirmPassword: ''
   });
 
-  // Light / Dark Theme toggle function
   const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(nextTheme);
@@ -33,7 +33,6 @@ export default function Auth() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // ─── Login Handler (Connecting to Cafe_Api) ───
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
@@ -43,15 +42,7 @@ export default function Auth() {
 
     setLoading(true);
     try {
-      const response = await api.post('/api/auth/login', {
-        email: formData.email,
-        password: formData.password
-      });
-
-      // Token များကို localStorage တွင် သိမ်းဆည်းခြင်း
-      localStorage.setItem('accessToken', response.data.message.accessToken);
-      localStorage.setItem('refreshToken', response.data.message.refreshToken);
-
+      await login(formData.email, formData.password);
       toast.success('🎉 Login အောင်မြင်ပါသည်!');
       navigate('/dashboard');
     } catch (error) {
@@ -65,7 +56,6 @@ export default function Auth() {
     }
   };
 
-  // ─── Register Handler (Connecting to Cafe_Api) ───
   const handleRegister = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.password) {
@@ -106,7 +96,6 @@ export default function Auth() {
 
   return (
     <div className={styles.authContainer}>
-      {/* Top right Theme Switcher */}
       <div className={styles.authHeaderBar}>
         <button type="button" className={styles.themeToggleBtn} onClick={toggleTheme}>
           {theme === 'light' ? (
@@ -122,13 +111,11 @@ export default function Auth() {
       </div>
 
       <div className={styles.authCard}>
-        {/* Cafe Brand Header with Steaming Animated Logo */}
         <div className={styles.authBrand}>
           <Logo text="Cafe House" size="large" />
           <p>{isLogin ? 'သင့်အကောင့်သို့ ဝင်ရောက်ပါ' : 'အကောင့်အသစ် ဖွင့်လှစ်ပါ'}</p>
         </div>
 
-        {/* Tab Switcher: Login / Register */}
         <div className={styles.authTabs}>
           <button
             type="button"
@@ -146,9 +133,7 @@ export default function Auth() {
           </button>
         </div>
 
-        {/* Auth Form */}
         <form className={styles.authForm} onSubmit={isLogin ? handleLogin : handleRegister}>
-          {/* Name field (Only shown for Register) */}
           {!isLogin && (
             <div className={styles.formGroup}>
               <label htmlFor="name">အမည် (Name)</label>
@@ -166,7 +151,6 @@ export default function Auth() {
             </div>
           )}
 
-          {/* Email field */}
           <div className={styles.formGroup}>
             <label htmlFor="email">အီးမေးလ် (Email)</label>
             <div className={styles.inputWrapper}>
@@ -182,7 +166,6 @@ export default function Auth() {
             </div>
           </div>
 
-          {/* Password field */}
           <div className={styles.formGroup}>
             <label htmlFor="password">စကားဝှက် (Password)</label>
             <div className={styles.inputWrapper}>
@@ -205,7 +188,6 @@ export default function Auth() {
             </div>
           </div>
 
-          {/* Confirm Password field (Only shown for Register) */}
           {!isLogin && (
             <div className={styles.formGroup}>
               <label htmlFor="confirmPassword">စကားဝှက် အတည်ပြုပါ (Confirm Password)</label>
@@ -223,7 +205,6 @@ export default function Auth() {
             </div>
           )}
 
-          {/* Extra options for Login (Remember Me & Forgot Password) */}
           {isLogin && (
             <div className={styles.formExtras}>
               <label className={styles.rememberMe}>
@@ -233,7 +214,6 @@ export default function Auth() {
             </div>
           )}
 
-          {/* Submit Button */}
           <button type="submit" className={styles.submitBtn} disabled={loading}>
             {loading ? (
               <span>ခေတ္တစောင့်ဆိုင်းပါ...</span>

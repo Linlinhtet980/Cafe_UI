@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import api from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 import styles from './Logout.module.css';
 
 export default function Logout({ className = '' }) {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -15,22 +16,13 @@ export default function Logout({ className = '' }) {
 
     setLoading(true);
     try {
-      // 1. Call Cafe_Api /api/auth/logout to set refreshToken to null in the database
-      await api.post('/api/auth/logout');
+      await logout();
       toast.success('အကောင့်မှ အောင်မြင်စွာ ထွက်ခွာပြီးပါပြီ');
     } catch (error) {
       console.error('Logout error:', error);
-      // If token expired or network issue, still notify user
       toast.info('အကောင့်မှ ထွက်ခွာပြီးပါပြီ');
     } finally {
-      
-      // 2. Clear tokens from localStorage
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-
       setLoading(false);
-
-      // 3. Redirect back to login page
       navigate('/login');
     }
   };

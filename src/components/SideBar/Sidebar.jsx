@@ -1,9 +1,11 @@
 import { NavLink, Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import Logo from '../Logo/Logo';
 import Logout from '../Logout/Logout';
 import styles from './Sidebar.module.css';
 
 export default function Sidebar() {
+  const { user } = useAuth();
   const navItems = [
     { path: '/admin', label: 'Dashboard', icon: 'fa-solid fa-chart-pie', end: true },
     { path: '/admin/users', label: 'Users & Staff', icon: 'fa-solid fa-users', end: false },
@@ -11,12 +13,10 @@ export default function Sidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      {/* Brand - Perfectly aligned with Header, animated steaming Logo */}
       <Link to="/admin" className={styles.brand}>
         <Logo text="Cafe Admin" size="small" />
       </Link>
 
-      {/* Scrollable Sidebar Body (Nav links & Profile Footer) */}
       <div className={styles.sidebarBody}>
         <div className={styles.navSection}>
           <span className={styles.navLabel}>Menu</span>
@@ -35,14 +35,15 @@ export default function Sidebar() {
           ))}
         </div>
 
-        {/* Sidebar Footer with Admin Profile & Logout */}
         <div className={styles.sidebarFooter}>
           <div className={styles.adminProfile}>
             <div className={styles.adminInfo}>
-              <div className={styles.adminAvatar}>A</div>
+              <div className={styles.adminAvatar}>
+                {(user?.name || 'A').charAt(0).toUpperCase()}
+              </div>
               <div className={styles.adminText}>
-                <span className={styles.adminName}>Admin User</span>
-                <span className={styles.adminRole}>Manager</span>
+                <span className={styles.adminName}>{user?.name || 'Admin User'}</span>
+                <span className={styles.adminRole}>{user?.email || 'Manager'}</span>
               </div>
             </div>
             <Logout />
