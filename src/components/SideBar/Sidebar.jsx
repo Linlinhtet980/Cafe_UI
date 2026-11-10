@@ -1,5 +1,5 @@
 import { NavLink, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import useAuth from '../../hooks/useAuth';
 import Logo from '../Logo/Logo';
 import Logout from '../Logout/Logout';
 import styles from './Sidebar.module.css';

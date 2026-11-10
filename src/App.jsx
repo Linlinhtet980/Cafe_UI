@@ -1,12 +1,9 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthProvider } from './contexts/AuthContext';
-import AdminLayout from './layouts/AdminLayout';
-import Dashboard from './pages/admin/dashboard/Dashboard';
-import Users from './pages/admin/users/Users';
-import Auth from './pages/auth/Auth';
+import AppRoutes from './routes/AppRoutes';
 
 export default function App() {
   return (
@@ -23,20 +20,7 @@ export default function App() {
           draggable
           pauseOnHover
         />
-
-        <Routes>
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/login" element={<Auth />} />
-
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="users" element={<Users />} />
-          </Route>
-
-          <Route path="/dashboard" element={<Navigate to="/admin" replace />} />
-          <Route path="/" element={<Navigate to="/auth" replace />} />
-          <Route path="*" element={<Navigate to="/auth" replace />} />
-        </Routes>
+        <AppRoutes />
       </BrowserRouter>
     </AuthProvider>
   );

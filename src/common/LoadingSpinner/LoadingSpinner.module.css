@@ -1,0 +1,30 @@
+.spinnerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: var(--primary);
+  opacity: 0.85;
+}
+
+.spinner {
+  font-size: 1.8rem;
+  animation: spin 1s linear infinite;
+}
+
+.spinnerText {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.75;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

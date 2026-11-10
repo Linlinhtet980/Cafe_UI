@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import  { createContext, useState, useContext } from 'react';
-import api from '../services/api';
+import { createContext, useState, useContext } from 'react';
+import authService from '../services/authService';
 
 export const AuthContext = createContext();
 
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const login = async (email, password) => {
-    const response = await api.post('/api/auth/login', { email, password });
+    const response = await authService.login(email, password);
     const { accessToken, refreshToken, user: userData } = response.data.message;
 
     localStorage.setItem('accessToken', accessToken);
@@ -36,9 +36,14 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
 
+  const register = async (name, email, password) => {
+    const response = await authService.register(name, email, password);
+    return response;
+  };
+
   const logout = async () => {
     try {
-      await api.post('/api/auth/logout');
+      await authService.logout();
     } catch (err) {
       console.error('Logout error:', err);
     } finally {
@@ -50,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, loading, setLoading }}>
+    <AuthContext.Provider value={{ user, setUser, login, register, logout, loading, setLoading }}>
       {children}
     </AuthContext.Provider>
   );
